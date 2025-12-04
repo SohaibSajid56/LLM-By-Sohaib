@@ -1,0 +1,7 @@
+services:
+  - type: worker
+    name: llm-memory-engine
+    env: linux
+    buildCommand: "g++ -std=c++17 main.cpp memory_engine.cpp btree.cpp hashtable.cpp -o engine"
+    startCommand: "./engine"
+    autoDeploy: true
