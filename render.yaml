@@ -1,7 +1,7 @@
 services:
-  - type: worker
+  - type: web
     name: llm-memory-engine
-    env: linux
-    buildCommand: "g++ -std=c++17 main.cpp memory_engine.cpp btree.cpp hashtable.cpp -o engine"
+    runtime: docker
+    buildCommand: ""
     startCommand: "./engine"
-    autoDeploy: true
+    dockerfilePath: ./Dockerfile
