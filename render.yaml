@@ -1,6 +1,12 @@
 services:
-  - type: worker
-    name: llm-memory-engine
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    autoDeploy: true
+  - type: web
+    name: dsa-llm-backend
+    env: debian
+    rootDir: .
+    buildCommand: |
+      apt-get update && apt-get install -y g++ curl libcurl4-openssl-dev
+      g++ -std=c++17 server.cpp memory_engine.cpp btree.cpp hashtable.cpp -lcurl -pthread -o server
+    startCommand: ./server
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false

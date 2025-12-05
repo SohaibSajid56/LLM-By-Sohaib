@@ -1,10 +1,11 @@
 // memory_engine.h
 #pragma once
+
 #include <string>
 #include "btree.h"
 #include "hashtable.h"
-using namespace std;
 
+// Simple key-value memory engine using B-Tree + HashTable
 class MemoryEngine
 {
 private:
@@ -13,5 +14,10 @@ private:
 
 public:
     MemoryEngine();
-    std::string handlePrompt(const std::string &prompt);
+
+    // Returns true if prompt exists, fills outResponse with stored answer
+    bool get(const std::string &prompt, std::string &outResponse) const;
+
+    // Stores prompt -> response in both B-Tree (for index) and HashTable (for lookup)
+    void put(const std::string &prompt, const std::string &response);
 };

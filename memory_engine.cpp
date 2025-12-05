@@ -1,29 +1,31 @@
 // memory_engine.cpp
 #include "memory_engine.h"
 
-MemoryEngine::MemoryEngine() : btree(2), hashtable(100) {}
-
-std::string MemoryEngine::handlePrompt(const std::string &prompt)
+MemoryEngine::MemoryEngine()
+    : btree(2),      // B-Tree min degree
+      hashtable(100) // Hash table size
 {
-    std::string response;
+}
 
-    // Step 1: Search in Hash Table (fast lookup)
-    if (hashtable.search(prompt, response))
+bool MemoryEngine::get(const std::string &prompt, std::string &outResponse) const
+{
+    // Use hash table for fast lookup
+    if (hashtable.search(prompt, outResponse))
     {
-        return "FOUND (HashTable): " + response;
+        return true;
     }
+    // If you want, you could also check B-Tree only for existence,
+    // but main value storage is in HashTable.
+    return false;
+}
 
-    // Step 2: Search in B-Tree
-    if (btree.search(prompt))
+void MemoryEngine::put(const std::string &prompt, const std::string &response)
+{
+    // Insert key into B-Tree index (if not already present)
+    if (!btree.search(prompt))
     {
-        return "FOUND (B-Tree but no stored response).";
+        btree.insert(prompt);
     }
-
-    // Step 3: Not found → store
-    btree.insert(prompt);
-
-    std::string newResponse = "Stored new prompt: " + prompt;
-    hashtable.insert(prompt, newResponse);
-
-    return "NOT FOUND. Now saved.";
+    // Store full prompt->response mapping in HashTable
+    hashtable.insert(prompt, response);
 }
