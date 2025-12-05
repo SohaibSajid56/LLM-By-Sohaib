@@ -1,18 +1,16 @@
-FROM ubuntu:22.04
+FROM debian:stable-slim
 
-RUN apt update && apt install -y \
-    g++ \
-    cmake \
-    curl \
-    libcurl4-openssl-dev \
-    libasio-dev \
-    libboost-all-dev
+RUN apt-get update && apt-get install -y \
+    g++ curl libcurl4-openssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY . .
 
-# Build the HTTP server
-RUN g++ -std=c++17 server.cpp memory_engine.cpp btree.cpp hashtable.cpp -lcurl -pthread -o server
+RUN g++ -std=c++17 server.cpp memory_engine.cpp btree.cpp hashtable.cpp \
+    -lcurl -pthread -o server
+
+EXPOSE 8080
 
 CMD ["./server"]

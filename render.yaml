@@ -1,12 +1,12 @@
 services:
   - type: web
     name: dsa-llm-backend
-    env: debian
+    runtime: docker
+    repo: https://github.com/SohaibSajid56/LLM-By-Sohaib
+    plan: free
+    branch: main
     rootDir: .
-    buildCommand: |
-      apt-get update && apt-get install -y g++ curl libcurl4-openssl-dev
-      g++ -std=c++17 server.cpp memory_engine.cpp btree.cpp hashtable.cpp -lcurl -pthread -o server
-    startCommand: ./server
+    dockerfilePath: Dockerfile
     envVars:
       - key: GROQ_API_KEY
         sync: false
