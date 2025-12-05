@@ -4,9 +4,7 @@ RUN apt-get update && apt-get install -y \
     g++ \
     curl \
     libcurl4-openssl-dev \
-    wget \
-    unzip \
-    libboost-all-dev \
+    libasio-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
