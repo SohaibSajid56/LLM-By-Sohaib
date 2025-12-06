@@ -18,7 +18,7 @@ static size_t writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata
     return size * nmemb;
 }
 
-// Very simple JSON-escape for double quotes and backslashes
+// JSON escape helper
 static std::string jsonEscape(const std::string &s)
 {
     std::string out;
@@ -39,7 +39,7 @@ static std::string jsonEscape(const std::string &s)
     return out;
 }
 
-// Call Groq LLaMA-3 and return ONLY the text answer (first choice)
+// Call Groq LLaMA-3 and return result
 std::string callGroqAI(const std::string &prompt)
 {
     if (GLOBAL_API_KEY.empty())
@@ -85,25 +85,16 @@ std::string callGroqAI(const std::string &prompt)
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    std::cout << "GROQ RAW RESPONSE = " << responseString << std::endl;
-
     auto json = crow::json::load(responseString);
     if (!json)
         return "[ERROR] Failed to parse Groq JSON response.";
 
-    // NEW: Handle errors from Groq
     if (json.has("error"))
-    {
-        cout << "Groq Error";
         return json["error"]["message"].s();
-    }
 
     try
     {
         auto &choices = json["choices"];
-        if (!choices || choices.size() == 0)
-            return "[ERROR] Groq response had no choices.";
-
         return choices[0]["message"]["content"].s();
     }
     catch (...)
@@ -112,50 +103,77 @@ std::string callGroqAI(const std::string &prompt)
     }
 }
 
+// =======================================================
+//              CORS MIDDLEWARE (REQUIRED)
+// =======================================================
+struct CORS
+{
+    struct context
+    {
+    };
+
+    void before_handle(crow::request &, crow::response &res, context &)
+    {
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type");
+    }
+
+    void after_handle(crow::request &, crow::response &res, context &)
+    {
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type");
+    }
+};
+
 int main()
 {
-    crow::SimpleApp app;
+    crow::App<CORS> app;
     MemoryEngine engine;
 
-    // Load API key ONCE in main thread
     const char *key = std::getenv("GROQ_API_KEY");
     if (key)
-    {
         GLOBAL_API_KEY = key;
-    }
     else
-    {
-        std::cout << "WARNING: GROQ_API_KEY missing in main thread." << std::endl;
-    }
+        std::cout << "WARNING: GROQ_API_KEY missing" << std::endl;
 
-    // Debug print
     std::cout << "DEBUG ENV KEY = " << GLOBAL_API_KEY << std::endl;
 
+    // =======================================================
+    //      REQUIRED OPTIONS ROUTE FOR BROWSER
+    // =======================================================
+    CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::OPTIONS)([]
+                                                                  {
+        crow::response res;
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type");
+        res.code = 200;
+        return res; });
+
+    // POST /prompt route
     CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::POST)([&engine](const crow::request &req)
                                                                {
         auto body = crow::json::load(req.body);
         if (!body || !body.has("prompt"))
-            return crow::response(400, "JSON body must contain 'prompt' field.");
+            return crow::response(400, "Missing 'prompt'");
 
         std::string prompt = body["prompt"].s();
         std::string storedResponse;
 
         crow::json::wvalue respJson;
 
-        // 1. Check memory
-        if (engine.get(prompt, storedResponse)) {
+        if (engine.get(prompt, storedResponse))
+        {
             respJson["response"] = storedResponse;
             respJson["from_cache"] = true;
             return crow::response(200, respJson);
         }
 
-        // 2. Ask Groq
         std::string aiAnswer = callGroqAI(prompt);
-
-        // 3. Store it
         engine.put(prompt, aiAnswer);
 
-        // 4. Return it
         respJson["response"] = aiAnswer;
         respJson["from_cache"] = false;
         return crow::response(200, respJson); });
@@ -167,7 +185,6 @@ int main()
         resp["status"] = "ok";
         return crow::response(200, resp); });
 
-    // Port
     const char *portEnv = std::getenv("PORT");
     uint16_t port = portEnv ? static_cast<uint16_t>(std::stoi(portEnv)) : 8080;
 
