@@ -119,6 +119,8 @@ struct CORS
     void after_handle(const crow::request &, crow::response &res, context &)
     {
         res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type");
     }
 };
 
