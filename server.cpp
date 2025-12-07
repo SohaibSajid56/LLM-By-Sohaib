@@ -105,20 +105,27 @@ std::string callGroqAI(const std::string &prompt)
 
 // ---------------------------------------------------------------------
 struct CORS
-
 {
     struct context
     {
     };
 
-    void before_handle(const crow::request &, crow::response &res, context &)
+    // 4-argument BEFORE HANDLE
+    void before_handle(const crow::request &req,
+                       crow::response &res,
+                       context &ctx,
+                       crow::detail::context<CORS> &parent_ctx)
     {
         res.add_header("Access-Control-Allow-Origin", "*");
         res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         res.add_header("Access-Control-Allow-Headers", "Content-Type");
     }
 
-    void after_handle(const crow::request &, crow::response &res, context &)
+    // 4-argument AFTER HANDLE
+    void after_handle(const crow::request &req,
+                      crow::response &res,
+                      context &ctx,
+                      crow::detail::context<CORS> &parent_ctx)
     {
         res.add_header("Access-Control-Allow-Origin", "*");
         res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -142,11 +149,11 @@ int main()
     // -----------------------------------------------------------------
     CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::OPTIONS)([](const crow::request &, crow::response &res)
                                                                   {
-            res.code = 204;
-            res.add_header("Access-Control-Allow-Origin", "*");
-            res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-            res.add_header("Access-Control-Allow-Headers", "Content-Type");
-            res.end(); });
+        res.code = 204;
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type");
+        res.end(); });
 
     // -----------------------------------------------------------------
     // POST /prompt
