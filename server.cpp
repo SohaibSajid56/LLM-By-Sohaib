@@ -8,9 +8,9 @@
 
 #include <curl/curl.h>
 
-std::string GLOBAL_API_KEY = ""; // FIXED
+std::string GLOBAL_API_KEY = "";
 
-// Helper for libcurl: write callback
+// libcurl write callback
 static size_t writeCallback(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
     auto *str = static_cast<std::string *>(userdata);
@@ -39,13 +39,10 @@ static std::string jsonEscape(const std::string &s)
     return out;
 }
 
-// Call Groq LLaMA-3 and return result
 std::string callGroqAI(const std::string &prompt)
 {
     if (GLOBAL_API_KEY.empty())
-        return "[ERROR] GROQ_API_KEY not set in environment (thread)";
-
-    std::string apiKey = GLOBAL_API_KEY;
+        return "[ERROR] GROQ_API_KEY not set in environment";
 
     CURL *curl = curl_easy_init();
     if (!curl)
@@ -55,8 +52,9 @@ std::string callGroqAI(const std::string &prompt)
 
     curl_easy_setopt(curl, CURLOPT_URL, "https://api.groq.com/openai/v1/chat/completions");
 
-    std::string authHeader = "Authorization: Bearer " + apiKey;
     struct curl_slist *headers = nullptr;
+    std::string authHeader = "Authorization: Bearer " + GLOBAL_API_KEY;
+
     headers = curl_slist_append(headers, authHeader.c_str());
     headers = curl_slist_append(headers, "Content-Type: application/json");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -75,27 +73,26 @@ std::string callGroqAI(const std::string &prompt)
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK)
     {
-        std::string err = "[ERROR] curl_easy_perform failed: ";
+        std::string err = "[ERROR] CURL Error: ";
         err += curl_easy_strerror(res);
-        curl_slist_free_all(headers);
         curl_easy_cleanup(curl);
+        curl_slist_free_all(headers);
         return err;
     }
 
-    curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
+    curl_slist_free_all(headers);
 
     auto json = crow::json::load(responseString);
     if (!json)
-        return "[ERROR] Failed to parse Groq JSON response.";
+        return "[ERROR] Invalid Groq JSON.";
 
     if (json.has("error"))
         return json["error"]["message"].s();
 
     try
     {
-        auto &choices = json["choices"];
-        return choices[0]["message"]["content"].s();
+        return json["choices"][0]["message"]["content"].s();
     }
     catch (...)
     {
@@ -103,23 +100,23 @@ std::string callGroqAI(const std::string &prompt)
     }
 }
 
-// =======================================================
-//              CORS MIDDLEWARE (REQUIRED)
-// =======================================================
+// ---------------------------------------------------------------------
+// CORS MIDDLEWARE
+// ---------------------------------------------------------------------
 struct CORS
 {
     struct context
     {
     };
 
-    void before_handle(crow::request &, crow::response &res, context &)
+    void before_handle(const crow::request &, crow::response &res, context &)
     {
         res.add_header("Access-Control-Allow-Origin", "*");
         res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         res.add_header("Access-Control-Allow-Headers", "Content-Type");
     }
 
-    void after_handle(crow::request &, crow::response &res, context &)
+    void after_handle(const crow::request &, crow::response &res, context &)
     {
         res.add_header("Access-Control-Allow-Origin", "*");
     }
@@ -133,58 +130,59 @@ int main()
     const char *key = std::getenv("GROQ_API_KEY");
     if (key)
         GLOBAL_API_KEY = key;
-    else
-        std::cout << "WARNING: GROQ_API_KEY missing" << std::endl;
 
-    std::cout << "DEBUG ENV KEY = " << GLOBAL_API_KEY << std::endl;
+    std::cout << "Using API KEY: " << GLOBAL_API_KEY << std::endl;
 
-    // =======================================================
-    //      REQUIRED OPTIONS ROUTE FOR BROWSER
-    // =======================================================
+    // -----------------------------------------------------------------
+    // Correct OPTIONS Handler (DO NOT RETURN ANYTHING)
+    // -----------------------------------------------------------------
     CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::OPTIONS)([](const crow::request &, crow::response &res)
                                                                   {
-        res.code = 204; // No Content
-        res.add_header("Access-Control-Allow-Origin", "*");
-        res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        res.add_header("Access-Control-Allow-Headers", "Content-Type");
-        res.end(); });
+            res.code = 204;
+            res.add_header("Access-Control-Allow-Origin", "*");
+            res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            res.add_header("Access-Control-Allow-Headers", "Content-Type");
+            res.end(); });
 
-    // POST /prompt route
-    CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::POST)([&engine](const crow::request &req)
+    // -----------------------------------------------------------------
+    // POST /prompt
+    // -----------------------------------------------------------------
+    CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::POST)([&](const crow::request &req)
                                                                {
-        auto body = crow::json::load(req.body);
-        if (!body || !body.has("prompt"))
-            return crow::response(400, "Missing 'prompt'");
+            auto body = crow::json::load(req.body);
+            if (!body || !body.has("prompt"))
+                return crow::response(400, "Missing 'prompt'");
 
-        std::string prompt = body["prompt"].s();
-        std::string storedResponse;
+            std::string prompt = body["prompt"].s();
+            std::string stored;
 
-        crow::json::wvalue respJson;
+            crow::json::wvalue resp;
 
-        if (engine.get(prompt, storedResponse))
-        {
-            respJson["response"] = storedResponse;
-            respJson["from_cache"] = true;
-            return crow::response(200, respJson);
-        }
+            if (engine.get(prompt, stored))
+            {
+                resp["response"] = stored;
+                resp["from_cache"] = true;
+                return crow::response(200, resp);
+            }
 
-        std::string aiAnswer = callGroqAI(prompt);
-        engine.put(prompt, aiAnswer);
+            std::string answer = callGroqAI(prompt);
+            engine.put(prompt, answer);
 
-        respJson["response"] = aiAnswer;
-        respJson["from_cache"] = false;
-        return crow::response(200, respJson); });
+            resp["response"] = answer;
+            resp["from_cache"] = false;
+            return crow::response(200, resp); });
 
-    // Health endpoint
+    // Health check
     CROW_ROUTE(app, "/health")([]
                                {
-        crow::json::wvalue resp;
-        resp["status"] = "ok";
-        return crow::response(200, resp); });
+        crow::json::wvalue x;
+        x["status"] = "ok";
+        return crow::response(200, x); });
 
-    const char *portEnv = std::getenv("PORT");
-    uint16_t port = portEnv ? static_cast<uint16_t>(std::stoi(portEnv)) : 8080;
+    uint16_t port = 8080;
+    if (const char *p = std::getenv("PORT"))
+        port = std::stoi(p);
 
-    std::cout << "Starting server on port " << port << std::endl;
+    std::cout << "Running on port " << port << std::endl;
     app.port(port).multithreaded().run();
 }
