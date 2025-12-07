@@ -102,8 +102,10 @@ std::string callGroqAI(const std::string &prompt)
 
 // ---------------------------------------------------------------------
 // CORS MIDDLEWARE
+
 // ---------------------------------------------------------------------
 struct CORS
+
 {
     struct context
     {
