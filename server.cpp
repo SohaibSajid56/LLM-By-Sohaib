@@ -122,8 +122,6 @@ struct CORS
     void after_handle(crow::request &, crow::response &res, context &)
     {
         res.add_header("Access-Control-Allow-Origin", "*");
-        res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        res.add_header("Access-Control-Allow-Headers", "Content-Type");
     }
 };
 
@@ -146,10 +144,11 @@ int main()
     CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::OPTIONS)([]
                                                                   {
         crow::response res;
+        res.code = 204;  // No Content
         res.add_header("Access-Control-Allow-Origin", "*");
         res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         res.add_header("Access-Control-Allow-Headers", "Content-Type");
-        res.code = 200;
+        res.end();  // CRITICAL !!!
         return res; });
 
     // POST /prompt route
