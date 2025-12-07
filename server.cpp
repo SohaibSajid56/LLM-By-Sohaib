@@ -141,15 +141,13 @@ int main()
     // =======================================================
     //      REQUIRED OPTIONS ROUTE FOR BROWSER
     // =======================================================
-    CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::OPTIONS)([]
+    CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::OPTIONS)([](const crow::request &, crow::response &res)
                                                                   {
-        crow::response res;
-        res.code = 204;  // No Content
+        res.code = 204; // No Content
         res.add_header("Access-Control-Allow-Origin", "*");
         res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         res.add_header("Access-Control-Allow-Headers", "Content-Type");
-        res.end();  // CRITICAL !!!
-        return res; });
+        res.end(); });
 
     // POST /prompt route
     CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::POST)([&engine](const crow::request &req)
