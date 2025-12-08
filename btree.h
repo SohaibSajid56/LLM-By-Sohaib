@@ -2,13 +2,14 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <iostream>
 using namespace std;
 
 struct BTreeNode
 {
     bool leaf;
-    vector<string> keys;
+
+    vector<pair<string, string>> entries;
+
     vector<BTreeNode *> children;
 
     BTreeNode(bool isLeaf);
@@ -20,12 +21,13 @@ private:
     BTreeNode *root;
     int t;
 
-    void splitChild(BTreeNode *parent, int i, BTreeNode *child);
-    void insertNonFull(BTreeNode *node, const string &key);
-    bool searchNode(BTreeNode *node, const string &key) const;
+    void splitChild(BTreeNode *parent, int idx, BTreeNode *child);
+    void insertNonFull(BTreeNode *node, const string &key, const string &value);
 
 public:
-    BTree(int minDegree = 2);
-    bool search(const string &key) const;
-    void insert(const string &key);
+    BTree(int minDegree);
+
+    bool search(const string &key, string &valueOut) const;
+
+    void insert(const string &key, const string &value);
 };

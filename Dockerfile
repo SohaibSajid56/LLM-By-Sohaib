@@ -13,4 +13,4 @@ COPY . .
 RUN g++ -std=c++17 server.cpp memory_engine.cpp btree.cpp hashtable.cpp \
     -lcurl -lpthread -o server
 
-CMD ["./server"]
+CMD ["./server"]    
