@@ -36,7 +36,7 @@ bool BTree::search(const string &key) const
 void BTree::insert(const string &key)
 {
     if (search(key))
-        return; // Prevent duplicate insert
+        return;
 
     if (root->keys.size() == 2 * t - 1)
     {

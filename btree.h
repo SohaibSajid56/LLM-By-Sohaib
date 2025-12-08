@@ -18,11 +18,11 @@ class BTree
 {
 private:
     BTreeNode *root;
-    int t; // minimum degree (t = 2 => order 3 tree)
+    int t;
 
     void splitChild(BTreeNode *parent, int i, BTreeNode *child);
-    void insertNonFull(BTreeNode *node, const std::string &key);
-    bool searchNode(BTreeNode *node, const std::string &key) const;
+    void insertNonFull(BTreeNode *node, const string &key);
+    bool searchNode(BTreeNode *node, const string &key) const;
 
 public:
     BTree(int minDegree = 2);

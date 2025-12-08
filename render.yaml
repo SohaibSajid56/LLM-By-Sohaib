@@ -1,12 +1,16 @@
 services:
   - type: web
     name: dsa-llm-backend
-    runtime: docker
-    repo: https://github.com/SohaibSajid56/LLM-By-Sohaib
+    env: docker
     plan: free
-    branch: main
-    rootDir: .
-    dockerfilePath: Dockerfile
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
     envVars:
       - key: GROQ_API_KEY
         sync: false
+
+  - type: static
+    name: dsa-llm-frontend
+    rootDir: public
+    buildCommand: ""
+    staticPublishPath: public

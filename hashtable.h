@@ -10,19 +10,19 @@ struct HashNode
     string value;
     HashNode *next;
 
-    HashNode(string k, std::string v) : key(k), value(v), next(nullptr) {}
+    HashNode(string k, string v) : key(k), value(v), next(nullptr) {}
 };
 
 class HashTable
 {
 private:
-    std::vector<HashNode *> table;
+    vector<HashNode *> table;
     int size;
 
-    int hash(const std::string &key) const;
+    int hash(const string &key) const;
 
 public:
     HashTable(int s = 100);
-    void insert(const std::string &key, const std::string &value);
-    bool search(const std::string &key, std::string &outValue) const;
+    void insert(const string &key, const string &value);
+    bool search(const string &key, string &outValue) const;
 };

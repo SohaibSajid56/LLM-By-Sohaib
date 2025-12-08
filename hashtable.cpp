@@ -6,7 +6,7 @@ HashTable::HashTable(int s) : size(s)
     table.resize(size, nullptr);
 }
 
-int HashTable::hash(const std::string &key) const
+int HashTable::hash(const string &key) const
 {
     unsigned long h = 0;
     for (char c : key)
@@ -14,7 +14,7 @@ int HashTable::hash(const std::string &key) const
     return h % size;
 }
 
-void HashTable::insert(const std::string &key, const std::string &value)
+void HashTable::insert(const string &key, const string &value)
 {
     int idx = hash(key);
 
@@ -34,7 +34,7 @@ void HashTable::insert(const std::string &key, const std::string &value)
     table[idx] = newNode;
 }
 
-bool HashTable::search(const std::string &key, std::string &outValue) const
+bool HashTable::search(const string &key, string &outValue) const
 {
     int idx = hash(key);
     HashNode *node = table[idx];
