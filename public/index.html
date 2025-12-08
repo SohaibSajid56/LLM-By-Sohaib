@@ -5,262 +5,221 @@
     <meta charset="UTF-8" />
     <title>Sohaib's LLM Chatbot</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --input-bg: #1e2630;
+            --user-msg: #1f6feb;
+            --bot-msg: #21262d;
+            --text-light: #e6edf3;
+            --border: #30363d;
+            --accent: #2ea043;
         }
 
         body {
-            background: #0f172a;
-            color: #e5e7eb;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-light);
+            font-family: system-ui, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px;
+            height: 100vh;
         }
 
-        .chat-wrapper {
-            width: 100%;
-            max-width: 800px;
-            background: #020617;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        .container {
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #1f2937;
+            width: 100%;
+            max-width: 900px;
+            height: 100vh;
+            background: var(--panel);
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
         }
 
-        .chat-header {
+        .header {
             padding: 16px 20px;
-            border-bottom: 1px solid #1f2937;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             background: linear-gradient(to right, #0ea5e9, #22c55e);
+            color: black;
+            font-size: 20px;
+            font-weight: 700;
         }
 
-        .chat-header-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #0f172a;
-        }
-
-        .chat-header-subtitle {
-            font-size: 12px;
-            color: #0f172a;
-            opacity: 0.8;
-        }
-
-        .chat-messages {
+        #messages {
             flex: 1;
-            padding: 16px;
+            padding: 20px;
             overflow-y: auto;
-            background: radial-gradient(circle at top left, #0f172a, #020617);
         }
 
-        .message {
-            max-width: 80%;
-            margin-bottom: 12px;
-            padding: 10px 14px;
+        .msg {
+            max-width: 75%;
+            padding: 12px 16px;
+            margin-bottom: 14px;
             border-radius: 14px;
-            font-size: 14px;
-            line-height: 1.4;
+            line-height: 1.45;
+            animation: fadeIn 0.2s ease-out;
             white-space: pre-wrap;
-            word-break: break-word;
         }
 
-        .message.user {
+        .user {
+            background: var(--user-msg);
             margin-left: auto;
-            background: #2563eb;
             color: white;
-            border-bottom-right-radius: 2px;
+            border-bottom-right-radius: 4px;
         }
 
-        .message.bot {
+        .bot {
+            background: var(--bot-msg);
+            border: 1px solid var(--border);
             margin-right: auto;
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-bottom-left-radius: 2px;
+            border-bottom-left-radius: 4px;
         }
 
-        .message.meta {
-            text-align: center;
-            margin: 8px auto;
-            color: #9ca3af;
+        .meta {
+            margin: 6px auto;
             font-size: 12px;
-            opacity: 0.9;
+            opacity: 0.75;
+            text-align: center;
         }
 
-        .chat-input-area {
-            border-top: 1px solid #1f2937;
-            padding: 10px;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-box {
+            padding: 16px;
             display: flex;
-            gap: 8px;
-            background: #020617;
+            gap: 10px;
+            border-top: 1px solid var(--border);
         }
 
-        .chat-input {
+        input {
             flex: 1;
-            background: #020617;
-            border: 1px solid #374151;
-            border-radius: 999px;
-            padding: 10px 14px;
-            color: #e5e7eb;
-            font-size: 14px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--input-bg);
+            color: var(--text-light);
             outline: none;
         }
 
-        .chat-input:focus {
+        input:focus {
             border-color: #0ea5e9;
-            box-shadow: 0 0 0 1px #0ea5e9;
         }
 
-        .chat-button {
-            padding: 0 18px;
-            border-radius: 999px;
+        button {
+            padding: 0 22px;
+            background: #238636;
+            border-radius: 10px;
             border: none;
-            background: linear-gradient(to right, #0ea5e9, #22c55e);
-            color: #020617;
+            color: white;
             font-weight: 600;
-            font-size: 14px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
         }
 
-        .chat-button:disabled {
-            opacity: 0.6;
-            cursor: default;
-        }
-
-        .status-bar {
-            font-size: 11px;
-            padding: 4px 16px 8px;
-            color: #9ca3af;
-        }
-
-        @media (max-width: 600px) {
-            .message {
-                max-width: 100%;
-            }
+        button:disabled {
+            opacity: 0.5;
         }
     </style>
 </head>
 
 <body>
-    <div class="chat-wrapper">
-        <div class="chat-header">
-            <div>
-                <div class="chat-header-title">Sohaib’s LLM Memory Chatbot</div>
-                <div class="chat-header-subtitle">
-                    Backend: dsa-llm-backend.onrender.com
-                </div>
-            </div>
-        </div>
 
-        <div id="messages" class="chat-messages"></div>
+    <div class="container">
+        <div class="header">Sohaib’s LLM Memory Chatbot</div>
 
-        <div class="status-bar" id="statusBar">
-            Connected to backend. Type a message and press Enter.
-        </div>
+        <div id="messages"></div>
 
-        <div class="chat-input-area">
-            <input id="promptInput" class="chat-input" type="text" placeholder="Ask something..." autocomplete="off" />
-            <button id="sendBtn" class="chat-button">Send</button>
+        <div class="input-box">
+            <input id="promptInput" type="text" placeholder="Message Sohaib-LLM..." autocomplete="off" />
+            <button id="sendBtn">Send</button>
         </div>
     </div>
 
     <script>
-        const API_URL = "https://dsa-llm-backend.onrender.com/prompt";
+        // Auto-switch between localhost & Render backend
+        const API_URL =
+            window.location.hostname === "localhost"
+                ? "http://localhost:8080/prompt"
+                : "https://dsa-llm-backend.onrender.com/prompt";
 
         const messagesEl = document.getElementById("messages");
-        const promptInput = document.getElementById("promptInput");
+        const input = document.getElementById("promptInput");
         const sendBtn = document.getElementById("sendBtn");
-        const statusBar = document.getElementById("statusBar");
 
-        function appendMessage(text, sender = "bot") {
+        function addMessage(text, type = "bot") {
             const div = document.createElement("div");
-            if (sender === "meta") {
-                div.className = "message meta";
-            } else {
-                div.className = "message " + sender;
-            }
+            div.className = "msg " + type;
             div.textContent = text;
             messagesEl.appendChild(div);
             messagesEl.scrollTop = messagesEl.scrollHeight;
-            return div; // in case we want to update it (e.g. loading)
+            return div;
+        }
+
+        function addMeta(text) {
+            const div = document.createElement("div");
+            div.className = "meta";
+            div.textContent = text;
+            messagesEl.appendChild(div);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+            return div;
         }
 
         async function sendPrompt() {
-            const prompt = promptInput.value.trim();
+            const prompt = input.value.trim();
             if (!prompt) return;
 
-            // show user message
-            appendMessage(prompt, "user");
-            promptInput.value = "";
-            promptInput.focus();
+            addMessage(prompt, "user");
+            input.value = "";
+            input.focus();
 
-            // show "thinking..." message
-            const thinking = appendMessage("Thinking...", "meta");
+            let thinking = addMeta("Thinking...");
 
             sendBtn.disabled = true;
-            statusBar.textContent = "Sending request to backend...";
 
             try {
                 const res = await fetch(API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ prompt })
+                    body: JSON.stringify({ prompt }),
                 });
-
-                if (!res.ok) {
-                    throw new Error("HTTP " + res.status);
-                }
 
                 const data = await res.json();
 
-                // remove "Thinking..."
                 thinking.remove();
 
-                let reply = data.response || "[No response field returned]";
-                appendMessage(reply, "bot");
+                addMessage(data.response, "bot");
 
                 if (data.from_cache) {
-                    appendMessage("Served from B-Tree/Hash memory.", "meta");
+                    addMeta("Served from B-Tree/Hash memory.");
                 } else {
-                    appendMessage("Generated via Groq + stored in memory.", "meta");
+                    addMeta("Generated via Groq + stored in memory.");
                 }
-
-                statusBar.textContent = "Response received.";
             } catch (err) {
                 thinking.remove();
-                appendMessage("Error: " + err.message, "bot");
-                statusBar.textContent = "Error talking to backend. Check console / network.";
-                console.error(err);
-            } finally {
-                sendBtn.disabled = false;
+                addMessage("Error: " + err.message, "bot");
             }
+
+            sendBtn.disabled = false;
         }
 
-        // Enter key triggers send
-        promptInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                sendPrompt();
-            }
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") sendPrompt();
         });
 
         sendBtn.addEventListener("click", sendPrompt);
 
-        // initial greeting
-        appendMessage("Hi! I'm your DSA-LLM chatbot. Ask me something.", "bot");
+        addMessage("Hi! I'm your DSA-LLM chatbot. Ask me something.", "bot");
     </script>
 </body>
 
