@@ -1,5 +1,6 @@
 // memory_engine.cpp
 #include "memory_engine.h"
+using namespace std;
 
 MemoryEngine::MemoryEngine()
     : btree(2),
@@ -8,10 +9,21 @@ MemoryEngine::MemoryEngine()
     loadFromDisk();
 }
 
-bool MemoryEngine::get(const string &prompt, string &outResponse) const
+bool MemoryEngine::get(const string &key, string &value, string &source)
 {
-    if (hashtable.search(prompt, outResponse))
+    // Level 1: HashTable (fast cache)
+    if (hashtable.search(key, value))
     {
+        source = "hashtable";
+        return true;
+    }
+
+    // Level 2: B-Tree (cold memory)
+    if (btree.search(key, value))
+    {
+        source = "btree";
+        // Promote to hash table
+        hashtable.insert(key, value);
         return true;
     }
 
@@ -32,7 +44,7 @@ void MemoryEngine::loadFromDisk()
         return;
 
     string line;
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         size_t sep = line.find('|');
         if (sep == string::npos)
@@ -41,7 +53,7 @@ void MemoryEngine::loadFromDisk()
         string key = line.substr(0, sep);
         string value = line.substr(sep + 1);
 
-        hashtable.insert(key, value);
+        // ONLY load into B-Tree
         btree.insert(key, value);
     }
 }

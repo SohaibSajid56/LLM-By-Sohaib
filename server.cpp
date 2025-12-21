@@ -152,15 +152,17 @@ int main()
 
              string prompt = body["prompt"].s();
              string stored;
+             string source;
 
-            crow::json::wvalue resp;
+             crow::json::wvalue resp;
 
-            if (engine.get(prompt, stored))
-            {
-                resp["response"] = stored;
-                resp["from_cache"] = true;
-                return crow::response(200, resp);
-            }
+             if (engine.get(prompt, stored, source))
+             {
+                 resp["response"] = stored;
+                 resp["source"] = "groq";
+                 resp["from_cache"] = true;
+                 return crow::response(200, resp);
+             }
 
              string answer = callGroqAI(prompt);
             engine.put(prompt, answer);

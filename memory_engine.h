@@ -17,7 +17,7 @@ private:
 public:
     MemoryEngine();
 
-    bool get(const string &key, string &value) const;
+    bool get(const string &key, string &value, string &source);
     void put(const string &key, const string &value);
 
     void loadFromDisk();

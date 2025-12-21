@@ -642,11 +642,16 @@
                 const replyText = data.response || "[No response field returned]";
                 addBubble(replyText, "bot");
 
-                if (data.from_cache) {
-                    addMeta("Served from B-Tree/Hash memory.");
+                if (data.source === "hashtable") {
+                    addMeta("Reply from HashTable (hot cache).");
+                } else if (data.source === "btree") {
+                    addMeta("Reply from B-Tree (loaded from disk, promoted to cache).");
+                } else if (data.source === "groq") {
+                    addMeta("Reply from Groq API (stored in memory).");
                 } else {
-                    addMeta("Generated via Groq + stored in memory.");
+                    addMeta("Reply source unknown.");
                 }
+
 
                 statusText.textContent = "Connected to backend";
             } catch (err) {
