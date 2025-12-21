@@ -159,8 +159,7 @@ int main()
              if (engine.get(prompt, stored, source))
              {
                  resp["response"] = stored;
-                 resp["source"] = "groq";
-                 resp["from_cache"] = true;
+                 resp["source"] = source;
                  return crow::response(200, resp);
              }
 
@@ -168,7 +167,7 @@ int main()
             engine.put(prompt, answer);
 
             resp["response"] = answer;
-            resp["from_cache"] = false;
+            resp["source"] = "groq";  
             return crow::response(200, resp); });
 
     CROW_ROUTE(app, "/health")([]
