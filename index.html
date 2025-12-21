@@ -10,13 +10,22 @@
         :root {
             --bg: #050816;
             --panel: #0b1020;
+            --panel-soft: #111827;
             --border-subtle: #1f2937;
             --border-strong: #374151;
             --text-main: #e5e7eb;
             --text-muted: #9ca3af;
             --accent: #22c55e;
+            --accent-soft: rgba(34, 197, 94, 0.14);
             --accent-2: #0ea5e9;
+            --accent-2-soft: rgba(14, 165, 233, 0.12);
             --user-msg: #1d4ed8;
+            --user-msg-soft: rgba(37, 99, 235, 0.16);
+            --bot-msg: #020617;
+            --pill-bg: #111827;
+            --shadow-soft: 0 32px 60px rgba(0, 0, 0, 0.65);
+            --radius-lg: 18px;
+            --radius-pill: 999px;
         }
 
         * {
@@ -30,63 +39,95 @@
             background: radial-gradient(circle at top, #111827, #020617 55%);
             color: var(--text-main);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
         }
 
         .app {
             display: flex;
+            width: 100%;
+            max-width: 1200px;
             height: 100vh;
-            padding: 12px;
+            padding: 12px 10px;
             gap: 10px;
+            position: relative;
+            /* ADDED */
         }
 
-        /* ===== Sidebar ===== */
+        /* --- Sidebar --- */
 
         .sidebar {
             width: 64px;
             border-radius: 18px;
-            background: #020617;
-            border: 1px solid var(--border-subtle);
+            background: linear-gradient(to bottom, #020617, #030712);
+            border: 1px solid #111827;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 12px 0;
             gap: 12px;
+            z-index: 20;
+            /* ADDED */
+        }
+
+        .sidebar-top,
+        .sidebar-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-bottom: 8px;
         }
 
         .nav-icon {
             width: 36px;
             height: 36px;
             border-radius: 12px;
-            border: 1px solid var(--border-subtle);
-            background: #020617;
+            border: 1px solid #111827;
+            background: radial-gradient(circle at top, #1e293b, #020617);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-muted);
             font-size: 18px;
             cursor: pointer;
         }
 
         .nav-icon.primary {
-            background: linear-gradient(to right, var(--accent-2), var(--accent));
-            color: black;
+            border-color: #22c55e33;
+            background: radial-gradient(circle at top, #16a34a, #0b1120);
+            color: white;
         }
 
-        /* ===== HashTable Panel ===== */
+        /* ========================= */
+        /* ADDED: HashTable panel */
+        /* ========================= */
 
         .hash-panel {
+            position: absolute;
+            left: 84px;
+            top: 12px;
+            bottom: 12px;
             width: 320px;
             background: #020617;
             border: 1px solid var(--border-subtle);
             border-radius: 18px;
             padding: 12px;
             overflow-y: auto;
+            box-shadow: var(--shadow-soft);
             display: none;
+            z-index: 15;
         }
 
         .hash-panel h3 {
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: 13px;
             color: var(--accent);
+            margin-bottom: 10px;
         }
 
         .hash-item {
@@ -98,7 +139,6 @@
         .hash-key {
             color: var(--accent);
             font-weight: 600;
-            margin-bottom: 4px;
         }
 
         .hash-value {
@@ -106,79 +146,98 @@
             white-space: pre-wrap;
         }
 
-        /* ===== Main Chat ===== */
+        /* ========================= */
+
+        /* --- Main panel --- */
 
         .main {
             flex: 1;
             border-radius: 22px;
-            background: #020617;
+            background: radial-gradient(circle at top left, #111827, #020617 55%);
             border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-soft);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
         }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            padding: 16px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .messages {
+        .main-inner {
             flex: 1;
-            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            padding: 16px 18px 82px;
+            overflow: hidden;
+        }
+
+        #messages {
+            flex: 1;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .msg {
-            margin-bottom: 12px;
-            max-width: 75%;
+        .msg-row {
+            display: flex;
         }
 
-        .msg.user {
-            margin-left: auto;
+        .msg-row.user {
+            justify-content: flex-end;
+        }
+
+        .msg-bubble {
+            max-width: 74%;
+            padding: 11px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        .msg-bubble.user {
             background: var(--user-msg);
             color: white;
-            padding: 10px 14px;
-            border-radius: 14px 14px 4px 14px;
         }
 
-        .msg.bot {
+        .msg-bubble.bot {
             background: #020617;
             border: 1px solid var(--border-subtle);
-            padding: 10px 14px;
-            border-radius: 14px 14px 14px 4px;
         }
 
         .meta {
             font-size: 11px;
             color: var(--text-muted);
-            margin-top: 4px;
+        }
+
+        .input-dock {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px;
         }
 
         .input-bar {
-            padding: 12px;
-            border-top: 1px solid var(--border-subtle);
             display: flex;
             gap: 10px;
-        }
-
-        .input-bar input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 999px;
-            border: 1px solid var(--border-strong);
             background: #020617;
-            color: white;
+            border-radius: 999px;
+            padding: 8px 10px;
         }
 
-        .input-bar button {
-            padding: 10px 18px;
+        .prompt-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+        }
+
+        .send-btn {
             border-radius: 999px;
             border: none;
-            background: linear-gradient(to right, var(--accent-2), var(--accent));
+            background: linear-gradient(to right, #0ea5e9, #22c55e);
+            padding: 0 16px;
             font-weight: 600;
             cursor: pointer;
         }
@@ -190,34 +249,41 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="nav-icon primary">✧</div>
-            <div class="nav-icon" id="hashToggle" title="View HashTable">🧮</div>
+            <div class="sidebar-top">
+                <div class="nav-icon primary">✧</div>
+                <div class="nav-icon">≡</div>
+
+                <!-- ADDED -->
+                <div class="nav-icon" id="hashToggle" title="View HashTable">🧮</div>
+            </div>
+            <div class="sidebar-bottom">
+                <div class="nav-icon">⚙</div>
+            </div>
         </div>
 
-        <!-- HashTable Panel -->
+        <!-- ADDED -->
         <div class="hash-panel" id="hashPanel">
             <h3>HashTable (Hot Cache)</h3>
             <div id="hashContent"></div>
         </div>
 
-        <!-- Main Chat -->
+        <!-- Main -->
         <div class="main">
-            <div class="top-bar">
-                <div>Sohaib's LLM Memory Chatbot</div>
-                <div id="statusText">Connected</div>
+            <div class="main-inner">
+                <div id="messages"></div>
             </div>
 
-            <div class="messages" id="messages"></div>
-
-            <div class="input-bar">
-                <input id="promptInput" placeholder="Ask something..." />
-                <button id="sendBtn">Send</button>
+            <div class="input-dock">
+                <div class="input-bar">
+                    <input id="promptInput" class="prompt-input" placeholder="Ask something..." />
+                    <button id="sendBtn" class="send-btn">Send</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const API_BASE =
+        const BASE_URL =
             location.hostname === "localhost"
                 ? "http://localhost:8080"
                 : "https://dsa-llm-backend.onrender.com";
@@ -225,72 +291,72 @@
         const messages = document.getElementById("messages");
         const input = document.getElementById("promptInput");
         const sendBtn = document.getElementById("sendBtn");
-        const statusText = document.getElementById("statusText");
 
-        const hashPanel = document.getElementById("hashPanel");
-        const hashContent = document.getElementById("hashContent");
-        const hashToggle = document.getElementById("hashToggle");
+        function addMsg(text, role) {
+            const row = document.createElement("div");
+            row.className = "msg-row " + role;
 
-        function addMsg(text, role, meta) {
-            const div = document.createElement("div");
-            div.className = "msg " + role;
-            div.textContent = text;
-            messages.appendChild(div);
+            const bubble = document.createElement("div");
+            bubble.className = "msg-bubble " + role;
+            bubble.textContent = text;
 
-            if (meta) {
-                const m = document.createElement("div");
-                m.className = "meta";
-                m.textContent = meta;
-                messages.appendChild(m);
-            }
-
+            row.appendChild(bubble);
+            messages.appendChild(row);
             messages.scrollTop = messages.scrollHeight;
         }
 
-        async function sendPrompt() {
+        sendBtn.onclick = async () => {
             const prompt = input.value.trim();
             if (!prompt) return;
 
             addMsg(prompt, "user");
             input.value = "";
 
-            statusText.textContent = "Thinking…";
-
-            const res = await fetch(API_BASE + "/prompt", {
+            const res = await fetch(BASE_URL + "/prompt", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt })
             });
 
             const data = await res.json();
-            addMsg(data.response, "bot", "Source: " + data.source);
-            statusText.textContent = "Connected";
-        }
+            addMsg(data.response, "bot");
+        };
 
-        sendBtn.onclick = sendPrompt;
-        input.onkeydown = e => e.key === "Enter" && sendPrompt();
+        /* ========================= */
+        /* ADDED: HashTable viewer */
+        /* ========================= */
+
+        const hashToggle = document.getElementById("hashToggle");
+        const hashPanel = document.getElementById("hashPanel");
+        const hashContent = document.getElementById("hashContent");
 
         hashToggle.onclick = async () => {
             hashPanel.style.display =
                 hashPanel.style.display === "block" ? "none" : "block";
 
-            if (hashPanel.style.display === "block") {
-                const res = await fetch(API_BASE + "/hashtable");
-                const data = await res.json();
+            if (hashPanel.style.display !== "block") return;
 
-                hashContent.innerHTML = "";
-                data.entries.forEach(e => {
-                    const div = document.createElement("div");
-                    div.className = "hash-item";
-                    div.innerHTML = `
-                    <div class="hash-key">${e.key}</div>
-                    <div class="hash-value">${e.value}</div>
-                `;
-                    hashContent.appendChild(div);
-                });
+            const res = await fetch(BASE_URL + "/hashtable");
+            const data = await res.json();
+
+            hashContent.innerHTML = "";
+
+            if (!data.entries || data.entries.length === 0) {
+                hashContent.textContent = "HashTable is empty.";
+                return;
             }
+
+            data.entries.forEach(e => {
+                const div = document.createElement("div");
+                div.className = "hash-item";
+                div.innerHTML =
+                    `<div class="hash-key">${e.key}</div>
+             <div class="hash-value">${e.value}</div>`;
+                hashContent.appendChild(div);
+            });
         };
     </script>
+
 </body>
 
 </html>
