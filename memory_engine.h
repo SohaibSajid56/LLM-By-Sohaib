@@ -20,6 +20,8 @@ public:
     bool get(const string &key, string &value, string &source);
     void put(const string &key, const string &value);
 
+    vector<pair<string, string>> getHashTableSnapshot() const;
+
     void loadFromDisk();
     void saveToDisk(const string &key, const string &value);
 };

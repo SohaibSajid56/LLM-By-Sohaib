@@ -136,6 +136,24 @@ int main()
 
     cout << "Using API KEY: " << GLOBAL_API_KEY << endl;
 
+    CROW_ROUTE(app, "/hashtable")([&engine]
+                                  {
+        crow::json::wvalue res;
+        vector<crow::json::wvalue> items;
+
+        auto entries = engine.getHashTableSnapshot();
+
+        for (auto& [k, v] : entries)
+        {
+            crow::json::wvalue obj;
+            obj["key"] = k;
+            obj["value"] = v;
+            items.push_back(obj);
+        }
+
+        res["entries"] = std::move(items);
+        return crow::response(200, res); });
+
     CROW_ROUTE(app, "/prompt").methods(crow::HTTPMethod::OPTIONS)([](const crow::request &, crow::response &res)
                                                                   {
         res.code = 204;

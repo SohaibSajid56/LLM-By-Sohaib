@@ -10,22 +10,13 @@
         :root {
             --bg: #050816;
             --panel: #0b1020;
-            --panel-soft: #111827;
             --border-subtle: #1f2937;
             --border-strong: #374151;
             --text-main: #e5e7eb;
             --text-muted: #9ca3af;
             --accent: #22c55e;
-            --accent-soft: rgba(34, 197, 94, 0.14);
             --accent-2: #0ea5e9;
-            --accent-2-soft: rgba(14, 165, 233, 0.12);
             --user-msg: #1d4ed8;
-            --user-msg-soft: rgba(37, 99, 235, 0.16);
-            --bot-msg: #020617;
-            --pill-bg: #111827;
-            --shadow-soft: 0 32px 60px rgba(0, 0, 0, 0.65);
-            --radius-lg: 18px;
-            --radius-pill: 999px;
         }
 
         * {
@@ -39,27 +30,22 @@
             background: radial-gradient(circle at top, #111827, #020617 55%);
             color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
         }
 
         .app {
             display: flex;
-            width: 100%;
-            max-width: 1200px;
             height: 100vh;
-            padding: 12px 10px;
+            padding: 12px;
             gap: 10px;
         }
 
-        /* --- Sidebar (fake Gemini-like nav) --- */
+        /* ===== Sidebar ===== */
 
         .sidebar {
             width: 64px;
             border-radius: 18px;
-            background: linear-gradient(to bottom, #020617, #030712);
-            border: 1px solid #111827;
+            background: #020617;
+            border: 1px solid var(--border-subtle);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -67,615 +53,243 @@
             gap: 12px;
         }
 
-        .sidebar-top,
-        .sidebar-bottom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sidebar-top {
-            flex: 0;
-        }
-
-        .sidebar-bottom {
-            margin-top: auto;
-            padding-bottom: 8px;
-        }
-
         .nav-icon {
             width: 36px;
             height: 36px;
             border-radius: 12px;
-            border: 1px solid #111827;
-            background: radial-gradient(circle at top, #1e293b, #020617);
+            border: 1px solid var(--border-subtle);
+            background: #020617;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted);
             font-size: 18px;
-            cursor: default;
+            cursor: pointer;
         }
 
         .nav-icon.primary {
-            border-color: #22c55e33;
-            background: radial-gradient(circle at top, #16a34a, #0b1120);
-            color: white;
+            background: linear-gradient(to right, var(--accent-2), var(--accent));
+            color: black;
         }
 
-        .nav-icon span {
-            font-size: 18px;
+        /* ===== HashTable Panel ===== */
+
+        .hash-panel {
+            width: 320px;
+            background: #020617;
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 12px;
+            overflow-y: auto;
+            display: none;
         }
 
-        /* --- Main panel --- */
+        .hash-panel h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .hash-item {
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 8px 0;
+            font-size: 12px;
+        }
+
+        .hash-key {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .hash-value {
+            color: var(--text-muted);
+            white-space: pre-wrap;
+        }
+
+        /* ===== Main Chat ===== */
 
         .main {
             flex: 1;
             border-radius: 22px;
-            background: radial-gradient(circle at top left, #111827, #020617 55%);
+            background: #020617;
             border: 1px solid var(--border-subtle);
-            box-shadow: var(--shadow-soft);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
         }
 
-        .main-inner {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 16px 18px 82px;
-            overflow: hidden;
-        }
-
-        /* --- Top bar --- */
-
         .top-bar {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-subtle);
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-gem {
-            width: 28px;
-            height: 28px;
-            border-radius: 10px;
-            background: conic-gradient(from 200deg, #22c55e, #0ea5e9, #22c55e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #020617;
-            font-weight: 800;
-            font-size: 16px;
-        }
-
-        .brand-text {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .brand-title {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .brand-sub {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .top-right-pill {
-            padding: 4px 10px;
-            border-radius: 999px;
-            border: 1px solid var(--border-subtle);
-            background: #020617;
-            font-size: 11px;
-            color: var(--text-muted);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
-        }
-
-        /* --- Hero (Hi, It's Sohaib’s LLM) --- */
-
-        .hero {
+        .messages {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            gap: 22px;
-            padding: 8px 12px 16px;
-            transition: opacity 0.22s ease-out, transform 0.22s ease-out;
-        }
-
-        .hero.hidden {
-            opacity: 0;
-            transform: translateY(-8px);
-            pointer-events: none;
-            display: none;
-        }
-
-
-        .hero-greeting {
-            font-size: clamp(26px, 3vw, 32px);
-            font-weight: 650;
-            letter-spacing: 0.01em;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .hero-greeting span.sparkle {
-            font-size: 20px;
-            margin-bottom: 2px;
-        }
-
-        .hero-subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-            max-width: 520px;
-            margin: 0 auto;
-        }
-
-        .tool-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .tool-chip {
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: var(--pill-bg);
-            border: 1px solid var(--border-subtle);
-            font-size: 12px;
-            color: var(--text-muted);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: default;
-        }
-
-        .tool-chip span.icon {
-            font-size: 14px;
-        }
-
-        /* --- Messages area --- */
-
-        .chat-shell {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            gap: 8px;
-        }
-
-        #messages {
-            flex: 1;
+            padding: 16px;
             overflow-y: auto;
-            padding: 4px 4px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            scrollbar-width: thin;
-            scrollbar-color: #4b5563 #020617;
         }
 
-        #messages::-webkit-scrollbar {
-            width: 6px;
+        .msg {
+            margin-bottom: 12px;
+            max-width: 75%;
         }
 
-        #messages::-webkit-scrollbar-thumb {
-            background: #4b5563;
-            border-radius: 999px;
-        }
-
-        #messages::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .msg-row {
-            display: flex;
-            width: 100%;
-        }
-
-        .msg-row.user {
-            justify-content: flex-end;
-        }
-
-        .msg-bubble {
-            max-width: 74%;
-            padding: 11px 14px;
-            border-radius: 16px;
-            font-size: 13px;
-            line-height: 1.45;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            animation: bubbleIn 0.18s ease-out;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-        }
-
-        .msg-bubble.user {
-            border-bottom-right-radius: 4px;
-            background: radial-gradient(circle at top left, var(--user-msg), var(--user-msg-soft));
+        .msg.user {
+            margin-left: auto;
+            background: var(--user-msg);
             color: white;
+            padding: 10px 14px;
+            border-radius: 14px 14px 4px 14px;
         }
 
-        .msg-bubble.bot {
-            border-bottom-left-radius: 4px;
-            background: radial-gradient(circle at top left, #020617, #020617);
+        .msg.bot {
+            background: #020617;
             border: 1px solid var(--border-subtle);
-            color: var(--text-main);
-        }
-
-        @keyframes bubbleIn {
-            from {
-                opacity: 0;
-                transform: translateY(4px) scale(0.99);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            padding: 10px 14px;
+            border-radius: 14px 14px 14px 4px;
         }
 
         .meta {
             font-size: 11px;
             color: var(--text-muted);
-            margin: 2px 0 2px 4px;
-            text-align: left;
-            display: block;
-        }
-
-        .meta.user {
-            text-align: right;
-            margin-right: 4px;
-        }
-
-        /* --- Input dock --- */
-
-        .input-dock {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 0 26px 16px;
-            pointer-events: none;
-        }
-
-        .input-shell {
-            max-width: 820px;
-            margin: 0 auto;
-            pointer-events: auto;
+            margin-top: 4px;
         }
 
         .input-bar {
+            padding: 12px;
+            border-top: 1px solid var(--border-subtle);
             display: flex;
-            align-items: center;
             gap: 10px;
-            padding: 8px 10px;
+        }
+
+        .input-bar input {
+            flex: 1;
+            padding: 10px;
             border-radius: 999px;
-            background: rgba(15, 23, 42, 0.98);
             border: 1px solid var(--border-strong);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75);
-        }
-
-        .input-main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .mode-pill {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            border: 1px solid var(--border-subtle);
             background: #020617;
-            color: var(--text-muted);
+            color: white;
         }
 
-        .prompt-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-main);
-            font-size: 14px;
-        }
-
-        .prompt-input::placeholder {
-            color: #6b7280;
-        }
-
-        .send-btn {
-            min-width: 70px;
-            height: 32px;
+        .input-bar button {
+            padding: 10px 18px;
             border-radius: 999px;
             border: none;
             background: linear-gradient(to right, var(--accent-2), var(--accent));
-            color: #020617;
             font-weight: 600;
-            font-size: 13px;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .send-btn:disabled {
-            opacity: 0.6;
-            cursor: default;
-        }
-
-        .send-icon {
-            font-size: 14px;
-        }
-
-        .dock-footer {
-            margin-top: 6px;
-            font-size: 11px;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        @media (max-width: 900px) {
-            .app {
-                padding: 8px;
-            }
-
-            .sidebar {
-                display: none;
-            }
-
-            .main-inner {
-                padding: 10px 10px 82px;
-            }
-
-            .input-dock {
-                padding: 0 12px 12px;
-            }
-
-            .msg-bubble {
-                max-width: 82%;
-            }
         }
     </style>
 </head>
 
 <body>
     <div class="app">
-        <!-- Fake Gemini sidebar -->
+
+        <!-- Sidebar -->
         <div class="sidebar">
-            <div class="sidebar-top">
-                <div class="nav-icon primary">
-                    <span>✧</span>
-                </div>
-                <div class="nav-icon">
-                    <span>≡</span>
-                </div>
-                <div class="nav-icon">
-                    <span>+</span>
-                </div>
-            </div>
-            <div class="sidebar-bottom">
-                <div class="nav-icon">
-                    <span>⚙</span>
-                </div>
-            </div>
+            <div class="nav-icon primary">✧</div>
+            <div class="nav-icon" id="hashToggle" title="View HashTable">🧮</div>
         </div>
 
-        <!-- Main chat panel -->
+        <!-- HashTable Panel -->
+        <div class="hash-panel" id="hashPanel">
+            <h3>HashTable (Hot Cache)</h3>
+            <div id="hashContent"></div>
+        </div>
+
+        <!-- Main Chat -->
         <div class="main">
-            <div class="main-inner">
-                <!-- Top bar -->
-                <div class="top-bar">
-                    <div class="brand">
-                        <div class="logo-gem">S</div>
-                        <div class="brand-text">
-                            <div class="brand-title">Sohaib's LLM Memory Chatbot</div>
-                            <div class="brand-sub">Backed by Groq + B-Tree/Hash memory</div>
-                        </div>
-                    </div>
-                    <div class="top-right-pill">
-                        <span class="status-dot"></span>
-                        <span id="statusText">Connected to backend</span>
-                    </div>
-                </div>
-
-                <!-- Hero greeting -->
-                <div id="hero" class="hero">
-                    <div class="hero-greeting">
-                        <span class="sparkle">✨</span>
-                        <span>Hi, it's Sohaib’s LLM</span>
-                    </div>
-                    <div class="hero-subtitle">
-                        Ask anything about Data Structures &amp; Algorithms. Responses are cached in a B-Tree and Hash
-                        Table so
-                        repeated questions are served instantly from memory.
-                    </div>
-
-                    <div class="tool-row">
-                        <div class="tool-chip">
-                            <span class="icon">📚</span> Explain a DSA topic
-                        </div>
-                        <div class="tool-chip">
-                            <span class="icon">🧠</span> Teach me a concept
-                        </div>
-                        <div class="tool-chip">
-                            <span class="icon">🛠</span> Optimize my code
-                        </div>
-                        <div class="tool-chip">
-                            <span class="icon">🐞</span> Debug my C++ function
-                        </div>
-                        <div class="tool-chip">
-                            <span class="icon">📝</span> Summarize my notes
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chat shell (messages) -->
-                <div class="chat-shell">
-                    <div id="messages"></div>
-                </div>
+            <div class="top-bar">
+                <div>Sohaib's LLM Memory Chatbot</div>
+                <div id="statusText">Connected</div>
             </div>
 
-            <!-- Input dock (bottom floating bar) -->
-            <div class="input-dock">
-                <div class="input-shell">
-                    <div class="input-bar">
-                        <div class="input-main">
-                            <div class="mode-pill">Mode: Thinking</div>
-                            <input id="promptInput" class="prompt-input" type="text"
-                                placeholder="Ask Sohaib’s LLM about DSA, code, or concepts..." autocomplete="off" />
-                        </div>
-                        <button id="sendBtn" class="send-btn">
-                            <span>Send</span>
-                            <span class="send-icon">➤</span>
-                        </button>
-                    </div>
-                    <div class="dock-footer">
-                        Answers may be generated via Groq or served directly from B-Tree/Hash memory.
-                    </div>
-                </div>
+            <div class="messages" id="messages"></div>
+
+            <div class="input-bar">
+                <input id="promptInput" placeholder="Ask something..." />
+                <button id="sendBtn">Send</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Auto-switch between localhost & Render backend
-        const API_URL =
-            window.location.hostname === "localhost"
-                ? "http://localhost:8080/prompt"
-                : "https://dsa-llm-backend.onrender.com/prompt";
+        const API_BASE =
+            location.hostname === "localhost"
+                ? "http://localhost:8080"
+                : "https://dsa-llm-backend.onrender.com";
 
-        const messagesEl = document.getElementById("messages");
-        const inputEl = document.getElementById("promptInput");
+        const messages = document.getElementById("messages");
+        const input = document.getElementById("promptInput");
         const sendBtn = document.getElementById("sendBtn");
         const statusText = document.getElementById("statusText");
-        const heroEl = document.getElementById("hero");
 
-        let hasStartedChat = false;
+        const hashPanel = document.getElementById("hashPanel");
+        const hashContent = document.getElementById("hashContent");
+        const hashToggle = document.getElementById("hashToggle");
 
-        function addBubble(text, role = "bot") {
-            const row = document.createElement("div");
-            row.className = "msg-row " + role;
+        function addMsg(text, role, meta) {
+            const div = document.createElement("div");
+            div.className = "msg " + role;
+            div.textContent = text;
+            messages.appendChild(div);
 
-            const bubble = document.createElement("div");
-            bubble.className = "msg-bubble " + role;
-            bubble.textContent = text;
+            if (meta) {
+                const m = document.createElement("div");
+                m.className = "meta";
+                m.textContent = meta;
+                messages.appendChild(m);
+            }
 
-            row.appendChild(bubble);
-            messagesEl.appendChild(row);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-            return bubble;
-        }
-
-        function addMeta(text, role = "bot") {
-            const span = document.createElement("span");
-            span.className = "meta " + role;
-            span.textContent = text;
-            messagesEl.appendChild(span);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-            return span;
+            messages.scrollTop = messages.scrollHeight;
         }
 
         async function sendPrompt() {
-            const prompt = inputEl.value.trim();
+            const prompt = input.value.trim();
             if (!prompt) return;
 
-            if (!hasStartedChat) {
-                heroEl.classList.add("hidden");
-                hasStartedChat = true;
-            }
+            addMsg(prompt, "user");
+            input.value = "";
 
-            // User message
-            addBubble(prompt, "user");
-            addMeta("You", "user");
+            statusText.textContent = "Thinking…";
 
-            inputEl.value = "";
-            inputEl.focus();
+            const res = await fetch(API_BASE + "/prompt", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt })
+            });
 
-            const thinkingMeta = addMeta("Thinking with Groq + checking B-Tree/Hash memory…");
-
-            sendBtn.disabled = true;
-            statusText.textContent = "Contacting backend…";
-
-            try {
-                const res = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ prompt })
-                });
-
-                if (!res.ok) {
-                    throw new Error("HTTP " + res.status);
-                }
-
-                const data = await res.json();
-                thinkingMeta.remove();
-
-                const replyText = data.response || "[No response field returned]";
-                addBubble(replyText, "bot");
-
-                if (data.source === "hashtable") {
-                    addMeta("Reply from HashTable (hot cache).");
-                } else if (data.source === "btree") {
-                    addMeta("Reply from B-Tree (loaded from disk, promoted to cache).");
-                } else if (data.source === "groq") {
-                    addMeta("Reply from Groq API (stored in memory).");
-                } else {
-                    addMeta("Reply source unknown.");
-                }
-
-
-                statusText.textContent = "Connected to backend";
-            } catch (err) {
-                thinkingMeta.remove();
-                addBubble("Error: " + err.message, "bot");
-                addMeta("Check backend logs or network connectivity.");
-                statusText.textContent = "Error talking to backend";
-                console.error(err);
-            } finally {
-                sendBtn.disabled = false;
-            }
+            const data = await res.json();
+            addMsg(data.response, "bot", "Source: " + data.source);
+            statusText.textContent = "Connected";
         }
 
-        inputEl.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                sendPrompt();
+        sendBtn.onclick = sendPrompt;
+        input.onkeydown = e => e.key === "Enter" && sendPrompt();
+
+        hashToggle.onclick = async () => {
+            hashPanel.style.display =
+                hashPanel.style.display === "block" ? "none" : "block";
+
+            if (hashPanel.style.display === "block") {
+                const res = await fetch(API_BASE + "/hashtable");
+                const data = await res.json();
+
+                hashContent.innerHTML = "";
+                data.entries.forEach(e => {
+                    const div = document.createElement("div");
+                    div.className = "hash-item";
+                    div.innerHTML = `
+                    <div class="hash-key">${e.key}</div>
+                    <div class="hash-value">${e.value}</div>
+                `;
+                    hashContent.appendChild(div);
+                });
             }
-        });
-
-        sendBtn.addEventListener("click", sendPrompt);
-
-        // Initial “system” message (shows in chat area once user starts)
-        // We keep hero clean and only show this after first interaction if needed
+        };
     </script>
 </body>
 

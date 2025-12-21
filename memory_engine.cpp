@@ -30,6 +30,11 @@ bool MemoryEngine::get(const string &key, string &value, string &source)
     return false;
 }
 
+vector<pair<string, string>> MemoryEngine::getHashTableSnapshot() const
+{
+    return hashtable.getAll();
+}
+
 void MemoryEngine::put(const string &key, const string &value)
 {
     hashtable.insert(key, value);

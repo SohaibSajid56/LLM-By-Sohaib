@@ -23,6 +23,7 @@ private:
 
 public:
     HashTable(int s = 100);
+    vector<pair<string, string>> getAll() const;
     void insert(const string &key, const string &value);
     bool search(const string &key, string &outValue) const;
 };

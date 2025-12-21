@@ -14,6 +14,22 @@ int HashTable::hash(const string &key) const
     return h % size;
 }
 
+vector<pair<string, string>> HashTable::getAll() const
+{
+    vector<pair<string, string>> result;
+
+    for (auto bucket : table)
+    {
+        HashNode *curr = bucket;
+        while (curr)
+        {
+            result.push_back({curr->key, curr->value});
+            curr = curr->next;
+        }
+    }
+    return result;
+}
+
 void HashTable::insert(const string &key, const string &value)
 {
     int idx = hash(key);
