@@ -482,7 +482,6 @@
                     <span>+</span>
                 </div>
             </div>
-            <div class="nav-icon" id="viewHashBtn" title="View HashTable"><span>🧮</span></div>
             <div class="sidebar-bottom">
                 <div class="nav-icon">
                     <span>⚙</span>
@@ -495,7 +494,8 @@
         <div id="hashPanel" style="
             display:none;
             position:absolute;
-            left:84px;
+            right:12px;
+            left:auto;
             top:12px;
             bottom:12px;
             width:320px;
@@ -528,10 +528,22 @@
                             <div class="brand-sub">Backed by Groq + B-Tree/Hash memory</div>
                         </div>
                     </div>
-                    <div class="top-right-pill">
+                    <div class="top-right-pill" style="gap:10px;">
                         <span class="status-dot"></span>
                         <span id="statusText">Connected to backend</span>
+
+                        <!-- HashTable Button -->
+                        <span id="viewHashBtn" title="View HashTable" style="
+            cursor:pointer;
+            padding:4px 8px;
+            border-radius:999px;
+            border:1px solid #1f2937;
+            background:#020617;
+          ">
+                            🧮
+                        </span>
                     </div>
+
                 </div>
 
                 <!-- Hero greeting -->
