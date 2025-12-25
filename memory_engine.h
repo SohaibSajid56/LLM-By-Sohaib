@@ -5,7 +5,12 @@
 #include "hashtable.h"
 #include <fstream>
 #include <sstream>
+#include <algorithm> // transform, remove_if
+#include <cctype>    // tolower, ispunct, isspace
+#include <vector>
 using namespace std;
+
+string normalizePrompt(string s);
 
 class MemoryEngine
 {
