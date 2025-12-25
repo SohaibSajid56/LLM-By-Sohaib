@@ -72,14 +72,16 @@ string normalizePrompt(string s)
 bool MemoryEngine::get(const string &key, string &value, string &source)
 {
     // Level 1: HashTable (fast cache)
-    if (hashtable.search(key, value))
+    string norm = normalizePrompt(key);
+
+    if (hashtable.search(norm, value))
     {
         source = "hashtable";
         return true;
     }
 
     // Level 2: B-Tree (cold memory)
-    if (btree.search(key, value))
+    if (btree.search(norm, value))
     {
         source = "btree";
         // Promote to hash table
@@ -97,9 +99,11 @@ vector<pair<string, string>> MemoryEngine::getHashTableSnapshot() const
 
 void MemoryEngine::put(const string &key, const string &value)
 {
-    hashtable.insert(key, value);
-    btree.insert(key, value);
-    saveToDisk(key, value);
+    string norm = normalizePrompt(key);
+
+    hashtable.insert(norm, value);
+    btree.insert(norm, value);
+    saveToDisk(norm, value);
 }
 
 void MemoryEngine::loadFromDisk()
