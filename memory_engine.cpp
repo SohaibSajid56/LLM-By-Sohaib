@@ -27,11 +27,7 @@ string normalizePrompt(string s)
     vector<string> patterns = {
         "i am",
         "im",
-        "its",
-        "its",
-        "my name is",
-        "this is",
-    };
+        "my name is"};
 
     for (const auto &p : patterns)
     {
