@@ -169,13 +169,13 @@ int main()
                 return crow::response(400, "Missing 'prompt'");
 
              string prompt = body["prompt"].s();
-             string normalized = normalizePrompt(prompt);
+             //string normalized = normalizePrompt(prompt);
              string stored;
              string source;
 
              crow::json::wvalue resp;
 
-             if (engine.get(normalized, stored, source))
+             if (engine.get(prompt, stored, source))
              {
                  resp["response"] = stored;
                  resp["source"] = source;

@@ -75,18 +75,18 @@ bool MemoryEngine::get(const string &key, string &value, string &source)
     // Level 1: HashTable (fast cache)
     string norm = normalizePrompt(key);
 
-    if (hashtable.search(norm, value))
+    if (hashtable.search(key, value))
     {
         source = "hashtable";
         return true;
     }
 
     // Level 2: B-Tree (cold memory)
-    if (btree.search(norm, value))
+    if (btree.search(key, value))
     {
         source = "btree";
         // Promote to hash table
-        hashtable.insert(norm, value);
+        hashtable.insert(key, value);
         return true;
     }
 
@@ -102,9 +102,9 @@ void MemoryEngine::put(const string &key, const string &value)
 {
     string norm = normalizePrompt(key);
 
-    hashtable.insert(norm, value);
-    btree.insert(norm, value);
-    saveToDisk(norm, value);
+    hashtable.insert(key, value);
+    btree.insert(key, value);
+    saveToDisk(key, value);
 }
 
 void MemoryEngine::loadFromDisk()
@@ -130,7 +130,7 @@ void MemoryEngine::loadFromDisk()
         string value = line.substr(sep + 1);
 
         // ONLY load into B-Tree
-        btree.insert(norm, value);
+        btree.insert(key, value);
     }
 }
 
