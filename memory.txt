@@ -1,4 +1,56 @@
-Hello|How can I assist you today?
-Hi|I am Sohaib Sajid.
-who are you|I am an artificial intelligence model...
-who is dr umer Suleman|One of the best Data Structure Teacher/Instructor. Currently Teaches at ITU.
+hello|How can I assist you today?
+hi|Hello! How can I help you?
+hey|Hi there! What can I do for you?
+good morning|Good morning! How can I assist you today?
+good afternoon|Good afternoon! What would you like to ask?
+good evening|Good evening! How can I help?
+
+who are you|I am an artificial intelligence model designed to answer questions and assist users.
+what are you|I am a large language model trained to understand and generate human-like text.
+what is your name|I am Sohaib's LLM Memory Chatbot.
+
+who made you|I was created by Sohaib Sajid as a learning project involving data structures.
+who is sohaib|Sohaib Sajid is a software engineering student with strong interest in data structures and AI.
+who is dr umer suleman|One of the best Data Structure instructors, currently teaching at ITU.
+
+how are you|I am functioning normally. How can I assist you?
+are you real|I am not a human, but a software-based artificial intelligence.
+do you have feelings|No, I do not have emotions or personal feelings.
+
+what can you do|I can explain concepts, answer questions, debug code, and help with learning.
+help me|Sure. Tell me what you need help with.
+can you help me|Yes, I am here to help.
+
+what is data structures|Data structures are ways to organize and store data efficiently.
+what is a btree|A B-Tree is a self-balancing tree data structure used in databases and file systems.
+what is a hashtable|A hash table stores key-value pairs and allows fast lookup using hashing.
+what is normalization|Normalization is the process of converting input into a consistent format.
+
+what is c++|C++ is a high-performance programming language used for system and application development.
+what is oop|Object-Oriented Programming is a paradigm based on objects and classes.
+what is a pointer|A pointer is a variable that stores a memory address.
+
+what is ai|Artificial Intelligence refers to machines that can perform tasks requiring human intelligence.
+what is machine learning|Machine learning is a subset of AI that learns patterns from data.
+what is an llm|A Large Language Model is trained on massive text data to understand language.
+
+what is render|Render is a cloud platform used to deploy backend and frontend services.
+what is docker|Docker is a tool used to containerize applications for consistent deployment.
+what is crow|Crow is a C++ micro web framework used to build HTTP servers.
+
+what is memory engine|A memory engine manages short-term and long-term storage of prompts and responses.
+what is disk persistence|Disk persistence ensures data survives server restarts.
+what is cache|A cache stores frequently used data in fast-access memory.
+
+how does btree search work|B-Tree search works by traversing nodes based on key comparisons.
+how does hashtable work|A hash table uses a hash function to map keys to storage locations.
+why use btree|B-Trees are efficient for disk-based storage and large datasets.
+
+what is time complexity|Time complexity measures how fast an algorithm runs as input size grows.
+what is big o|Big-O notation describes the worst-case complexity of an algorithm.
+what is recursion|Recursion is a function calling itself to solve smaller subproblems.
+
+thank you|You're welcome! Feel free to ask more questions.
+thanks|Glad I could help.
+bye|Goodbye! Have a great day.
+goodbye|See you later. Take care.
