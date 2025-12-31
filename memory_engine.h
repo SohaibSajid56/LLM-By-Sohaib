@@ -17,7 +17,12 @@ class MemoryEngine
 private:
     BTree btree;
     HashTable hashtable;
-    string filename = "/data/memory.txt";
+    string filename =
+#ifdef RENDER
+        "/data/memory.txt";
+#else
+        "memory.txt";
+#endif
 
 public:
     MemoryEngine();

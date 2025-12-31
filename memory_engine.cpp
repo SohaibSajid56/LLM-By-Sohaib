@@ -74,6 +74,7 @@ bool MemoryEngine::get(const string &key, string &value, string &source)
 {
     // Level 1: HashTable (fast cache)
     string norm = normalizePrompt(key);
+    cout << "[GET] key=" << norm << endl;
 
     if (hashtable.search(norm, value))
     {
@@ -101,6 +102,7 @@ vector<pair<string, string>> MemoryEngine::getHashTableSnapshot() const
 void MemoryEngine::put(const string &key, const string &value)
 {
     string norm = normalizePrompt(key);
+    cout << "[PUT] key=" << norm << endl;
 
     hashtable.insert(norm, value);
     btree.insert(norm, value);
