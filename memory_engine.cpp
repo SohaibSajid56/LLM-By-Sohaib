@@ -131,7 +131,8 @@ void MemoryEngine::loadFromDisk()
         string value = line.substr(sep + 1);
 
         // ONLY load into B-Tree
-        btree.insert(key, value);
+        string norm = normalizePrompt(key);
+        btree.insert(norm, value);
     }
 }
 
