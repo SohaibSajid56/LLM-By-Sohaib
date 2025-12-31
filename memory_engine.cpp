@@ -1,5 +1,6 @@
 // memory_engine.cpp
 #include "memory_engine.h"
+#include <iostream>
 using namespace std;
 
 MemoryEngine::MemoryEngine()
@@ -110,7 +111,12 @@ void MemoryEngine::loadFromDisk()
 {
     ifstream file(filename);
     if (!file.is_open())
+    {
+        cout << "[WARN] Could not open memory file: " << filename << endl;
         return;
+    }
+
+    cout << "[INFO] Loading memory from disk..." << endl;
 
     string line;
     while (getline(file, line))
