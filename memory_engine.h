@@ -17,7 +17,7 @@ class MemoryEngine
 private:
     BTree btree;
     HashTable hashtable;
-    string filename = "memory.txt";
+    string filename = "/data/memory.txt";
 
 public:
     MemoryEngine();

@@ -86,7 +86,7 @@ bool MemoryEngine::get(const string &key, string &value, string &source)
     {
         source = "btree";
         // Promote to hash table
-        hashtable.insert(key, value);
+        hashtable.insert(norm, value);
         return true;
     }
 
