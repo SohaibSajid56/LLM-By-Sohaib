@@ -15,8 +15,8 @@ int main()
 
     for (int i = 0; i < 10000; i++)
     {
-        string key = prompts[i % prompts.size()] + " " + to_string(i);
-        string value = "This is a cached response for prompt " + to_string(i);
+        string key = prompts[i % prompts.size()];
+        string value = "Cached explanation for: " + key;
         file << key << "|" << value << "\n";
     }
 
