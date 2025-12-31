@@ -98,30 +98,11 @@ vector<pair<string, string>> MemoryEngine::getHashTableSnapshot() const
 void MemoryEngine::put(const string &key, const string &value)
 {
     string norm = normalizePrompt(key);
+    cout << "[PUT] key=" << norm << endl;
 
     hashtable.insert(norm, value);
     btree.insert(norm, value);
-}
-
-void MemoryEngine::persistSnapshot()
-{
-    ofstream file(filename, ios::trunc); // overwrite file
-
-    if (!file.is_open())
-    {
-        cout << "[ERROR] Could not write snapshot to disk\n";
-        return;
-    }
-
-    auto entries = hashtable.getAll();
-
-    for (auto &[k, v] : entries)
-    {
-        file << k << "|" << v << "\n";
-    }
-
-    cout << "[INFO] Memory snapshot saved ("
-         << entries.size() << " entries)\n";
+    saveToDisk(norm, value);
 }
 
 void MemoryEngine::loadFromDisk()
@@ -129,9 +110,11 @@ void MemoryEngine::loadFromDisk()
     ifstream file(filename);
     if (!file.is_open())
     {
-        cout << "[WARN] No memory snapshot found\n";
+        cout << "[WARN] Could not open memory file: " << filename << endl;
         return;
     }
+
+    cout << "[INFO] Loading memory from disk..." << endl;
 
     string line;
     while (getline(file, line))
@@ -143,10 +126,10 @@ void MemoryEngine::loadFromDisk()
         string key = line.substr(0, sep);
         string value = line.substr(sep + 1);
 
-        btree.insert(key, value);
+        // ONLY load into B-Tree
+        string norm = normalizePrompt(key);
+        btree.insert(norm, value);
     }
-
-    cout << "[INFO] Memory snapshot loaded\n";
 }
 
 void MemoryEngine::saveToDisk(const string &key, const string &value)
