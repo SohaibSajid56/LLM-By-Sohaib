@@ -1,2 +1,4 @@
 Hello|How can I assist you today?
 Hi|I am Sohaib Sajid.
+who are you|I am an artificial intelligence model...
+who is dr umer Suleman|One of the best Data Structure Teacher/Instructor. Currently Teaches at ITU.
