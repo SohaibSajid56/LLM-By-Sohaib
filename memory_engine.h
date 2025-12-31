@@ -17,7 +17,7 @@ class MemoryEngine
 private:
     BTree btree;
     HashTable hashtable;
-    string filename = "/home/sohaib/projects/DSA-LLM/memory.txt";
+    string filename = "memory.txt";
 
 public:
     MemoryEngine();
