@@ -5,8 +5,8 @@
 #include "hashtable.h"
 #include <fstream>
 #include <sstream>
-#include <algorithm> // transform, remove_if
-#include <cctype>    // tolower, ispunct, isspace
+#include <algorithm>
+#include <cctype> // tolower, ispunct, isspace
 #include <vector>
 using namespace std;
 
