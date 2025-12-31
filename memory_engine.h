@@ -31,6 +31,7 @@ public:
     void put(const string &key, const string &value);
 
     vector<pair<string, string>> getHashTableSnapshot() const;
+    void persistSnapshot();
 
     void loadFromDisk();
     void saveToDisk(const string &key, const string &value);
