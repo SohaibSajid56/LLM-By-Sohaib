@@ -1,5 +1,7 @@
 hello|Cached explanation for: hello
 hi|Cached explanation for: hi
+who is Sohaib|Software Engineer, AI Anthusiast and Student @ ITU.
+who is dr Umer Suleman|one of The best Teacher of Data Structure. Currently Teaching At ITU. Also he is graduated from Fast university.
 hey|Cached explanation for: hey
 good morning|Cached explanation for: good morning
 good evening|Cached explanation for: good evening
