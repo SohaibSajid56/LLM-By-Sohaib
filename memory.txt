@@ -3,6 +3,107 @@ hi|Cached explanation for: hi
 who is Sohaib|Software Engineer, AI Anthusiast and Student @ ITU.
 who is dr Umer Suleman|one of The best Teacher of Data Structure. Currently Teaching At ITU. Also he is graduated from Fast university.
 hey|Cached explanation for: hey
+hello|How can I assist you today?
+hi|Hello! How can I help you?
+hey|Hi there! What can I do for you?
+good morning|Good morning! How can I assist you today?
+good evening|Good evening! How can I help?
+
+how are you|I am functioning normally. How can I assist you?
+how are you doing|I am working fine. What would you like to ask?
+are you online|Yes, I am online and ready to help.
+
+who are you|I am an artificial intelligence model designed to assist with questions and learning.
+what are you|I am a large language model trained on text data.
+what is your name|I am Sohaib's LLM Memory Chatbot.
+
+who made you|I was created by Sohaib Sajid as a data structures based LLM project.
+who is sohaib|Sohaib Sajid is a student and software engineer focused on AI and DSA.
+who is dr umer suleman|A highly respected Data Structures instructor currently teaching at ITU.
+
+what can you do|I can explain concepts, debug code, and answer technical questions.
+help me|Sure. Tell me what you need help with.
+can you help me|Yes, I am here to help.
+
+what is data structures|Data structures are techniques to store and organize data efficiently.
+what is algorithm|An algorithm is a step-by-step procedure to solve a problem.
+what is dsa|DSA stands for Data Structures and Algorithms.
+
+what is a btree|A B-Tree is a self-balancing tree optimized for disk storage.
+what is a bst|A Binary Search Tree stores data in sorted order.
+what is avl tree|An AVL tree is a self-balancing binary search tree.
+what is heap|A heap is a complete binary tree used for priority queues.
+what is trie|A trie is a tree used for efficient string storage and search.
+what is graph|A graph is a collection of nodes connected by edges.
+what is linked list|A linked list is a linear data structure using pointers.
+what is stack|A stack follows Last In First Out order.
+what is queue|A queue follows First In First Out order.
+
+what is hashtable|A hash table stores key-value pairs using a hash function.
+how does hashtable work|A hash function maps keys to indices for fast lookup.
+what is collision|Collision occurs when two keys map to the same index.
+what is chaining|Chaining resolves collisions using linked lists.
+
+what is recursion|Recursion is when a function calls itself.
+what is base case|A base case stops recursion.
+what is time complexity|Time complexity measures algorithm efficiency.
+what is space complexity|Space complexity measures memory usage.
+what is big o|Big-O notation describes worst-case performance.
+
+what is c++|C++ is a high-performance programming language.
+what is oop|Object-Oriented Programming uses classes and objects.
+what is class|A class is a blueprint for creating objects.
+what is object|An object is an instance of a class.
+what is inheritance|Inheritance allows a class to reuse another class.
+what is polymorphism|Polymorphism allows different implementations of the same function.
+what is encapsulation|Encapsulation hides internal implementation details.
+
+what is pointer|A pointer stores a memory address.
+what is reference|A reference is an alias for a variable.
+what is dynamic memory|Dynamic memory is allocated at runtime.
+
+what is ai|Artificial Intelligence enables machines to mimic human intelligence.
+what is machine learning|Machine learning allows systems to learn from data.
+what is deep learning|Deep learning uses neural networks with multiple layers.
+what is llm|A Large Language Model processes and generates text.
+
+what is render|Render is a cloud platform for hosting applications.
+what is docker|Docker packages applications into containers.
+what is api|An API allows communication between software systems.
+what is http|HTTP is a protocol for web communication.
+what is rest api|A REST API follows stateless client-server architecture.
+what is json|JSON is a lightweight data exchange format.
+
+what is memory engine|A memory engine stores prompts and responses persistently.
+what is disk persistence|Disk persistence allows data to survive restarts.
+what is cache|A cache stores frequently used data in memory.
+what is ram|RAM is temporary high-speed memory.
+what is disk|Disk provides permanent data storage.
+
+why use btree|B-Trees are efficient for large disk-based datasets.
+why use hashtable|Hash tables provide fast O(1) average lookup.
+difference between bst and btree|BST is binary; B-Tree allows multiple keys per node.
+difference between stack and queue|Stack is LIFO, Queue is FIFO.
+
+what is segmentation fault|A segmentation fault occurs due to invalid memory access.
+what is null pointer|A null pointer points to no memory location.
+what is memory leak|A memory leak occurs when memory is not freed.
+
+what is normalize|Normalization converts input into a standard format.
+why normalize input|Normalization improves matching and memory reuse.
+what is similarity matching|Similarity matching compares meaning instead of exact text.
+
+thank you|You're welcome!
+who is Ali Ahmad Rehan|BSAI Student at ITU with a good CGPA and a bright student. 
+who is GMD|BSAI Student at ITU. Live in the city of Bahawalpur. AI Anthusiast.
+who is Talha|Data Structures TA and student @ ITU.
+who is Usman|Data Structures TA and student @ ITU. 
+who is Ahmad|Data Structures TA and student @ ITU. 
+
+thanks|Glad I could help.
+bye|Goodbye! Have a nice day.
+goodbye|See you later.
+
 good morning|Cached explanation for: good morning
 good evening|Cached explanation for: good evening
 who are you|Cached explanation for: who are you
